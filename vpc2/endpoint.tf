@@ -1,6 +1,6 @@
 resource "aws_vpc_endpoint" "other_vpc_endpoint" {
   vpc_id             = aws_vpc.vpc2.id
-  service_name       = "com.amazonaws.vpce.eu-west-1.vpce-svc-03d64a56a1b1512f1"
+  service_name       = "INSERT SERVICE ENDPOINT URI HERE"
   subnet_ids         = [aws_subnet.public_subnet_1.id, aws_subnet.public_subnet_2.id, aws_subnet.public_subnet_3.id]
   vpc_endpoint_type  = "Interface"
   security_group_ids = [aws_security_group.endpointsg.id]
