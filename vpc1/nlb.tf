@@ -54,5 +54,5 @@ resource "aws_lb_target_group_attachment" "test" {
   target_group_arn = aws_lb_target_group.my-target-group.arn
   target_id        = aws_lb.test-alb.arn
   port             = 80
-  depends_on       = [aws_lb.test-alb]
+  depends_on       = [aws_lb_listener.my-listener]
 }
