@@ -8,6 +8,40 @@ resource "aws_lb" "test-alb" {
     aws_subnet.public_subnet_3.id
   ]
   enable_deletion_protection = false
+
+  access_logs {
+    bucket  = aws_s3_bucket.alb_logs.id
+    prefix  = "alb"
+    enabled = true
+  }
+}
+
+resource "aws_s3_bucket" "alb_logs" {
+  bucket        = "my-lb-logs-test-play-priv-link"
+  force_destroy = true
+}
+
+resource "aws_s3_bucket_policy" "allow_access_from_another_account" {
+  bucket = aws_s3_bucket.alb_logs.id
+  policy = data.aws_iam_policy_document.allow_access_from_alb.json
+}
+
+data "aws_iam_policy_document" "allow_access_from_alb" {
+  statement {
+    principals {
+      type        = "AWS"
+      identifiers = ["arn:aws:iam::156460612806:root"]
+    }
+
+    actions = [
+      "s3:PutObject"
+    ]
+
+    resources = [
+      aws_s3_bucket.alb_logs.arn,
+      "${aws_s3_bucket.alb_logs.arn}/*",
+    ]
+  }
 }
 
 resource "aws_lb_listener" "alb_listener" {
