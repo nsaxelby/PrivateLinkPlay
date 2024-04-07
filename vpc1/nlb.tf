@@ -56,7 +56,3 @@ resource "aws_lb_target_group_attachment" "test" {
   port             = 80
   depends_on       = [aws_lb.test-alb]
 }
-
-output "execute_this_curl_to_ping_alb_through_nbl" {
-  value = "curl http://${aws_eip.eip1.public_ip}/"
-}
