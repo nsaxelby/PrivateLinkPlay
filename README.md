@@ -17,8 +17,10 @@ VPC2 (`/vpc2`) is the consumer VPC. We create a VPC endpoint which points toward
 ## Running
 Up VPC 1 first
 
-`cd vpc1`
-`terraform apply`
+```
+cd vpc1
+terraform apply
+```
 
 Copy the service endpoint to be given to VPC2, it will be writtent to output after apply, e.g.:
 `name_of_endpoint_service_to_be_given_to_other_party = "Name: com.amazonaws.vpce.eu-west-1.vpce-svc-0f0a99340244957ef"`
@@ -28,17 +30,25 @@ Paste that into `/vpc2/endpoint.tf` where it says `INSERT SERVICE ENDPOINT URI H
 
 We can then switch to create the VPC2 components:
 
-`cd ..`
-`cd vpc2`
-`terraform apply`
+```
+cd ..
+cd vpc2
+terraform apply
+```
 
-You now need to go into AWS console and accept the incoming connection request manually, see here: `https://docs.aws.amazon.com/vpc/latest/privatelink/configure-endpoint-service.html#accept-reject-connection-requests` for more info.
+You now need to go into AWS console and accept the incoming connection request manually, see here: [https://docs.aws.amazon.com/vpc/latest/privatelink/configure-endpoint-service.html#accept-reject-connection-requests](https://docs.aws.amazon.com/vpc/latest/privatelink/configure-endpoint-service.html#accept-reject-connection-requests) for more info.
 (VPCS -> Endpoint Services -> Endpoint Connections -> Actions -> Accept)
 
 ## Testing
 ssh into your ec2 instance in `vpc2`
-`ssh ec2-user@your-ec2-ip-here -i cert.pem`
+
+```
+ssh ec2-user@your-ec2-ip-here -i cert.pem
+```
 
 Test you can access the endpoint service using curl:
-`curl http://your-endpoint-address-here` - note: this is output to console after create, or you can find it on the endpoint in AWS console. It will look like this in output:
+```
+curl http://your-endpoint-address-here
+```
+note: this is output to console after create, or you can find it on the endpoint in AWS console. It will look like this in output:
 `curl_command_to_use_on_ec2 = "curl http://vpce-00a866d3aa06f531b-624dusee.vpce-svc-03d64a56a1b1512f1.eu-west-1.vpce.amazonaws.com"`
