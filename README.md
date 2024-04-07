@@ -2,13 +2,19 @@
 
 This repo is for testing/playing with AWS PrivateLink. It includes an example implementation of exposing a simple service (an ALB with direct response) to another VPC via PrivateLink.
 
+### Overview Diagram
+
+![overview diagram](vpc-private-link-testing.jpg)
+
+### Descripton
+
 There are two VPCs.
 
 VPC1 (`/vpc1`) is the service endpoint - it has an NLB, which points to an ALB, and that ALB has a fixed response of `pong` on all requests on port 80. VPC1 must be created before VPC2.
 
 VPC2 (`/vpc2`) is the consumer VPC. We create a VPC endpoint which points towards the servic endpoint. We must pass the auto-generated service endpoint to (`/vpc2/endpoint.tf  aws_vpc_endpoint.other_vpc_endpoint.service_name`) after VPC1 has been created. VPC2 has an EC2 instance within it, so that we can test the PrivateLink connection.
 
-# Running
+## Running
 Up VPC 1 first
 
 `cd vpc1`
@@ -29,7 +35,7 @@ We can then switch to create the VPC2 components:
 You now need to go into AWS console and accept the incoming connection request manually, see here: `https://docs.aws.amazon.com/vpc/latest/privatelink/configure-endpoint-service.html#accept-reject-connection-requests` for more info.
 (VPCS -> Endpoint Services -> Endpoint Connections -> Actions -> Accept)
 
-# Testing
+## Testing
 ssh into your ec2 instance in `vpc2`
 `ssh ec2-user@your-ec2-ip-here -i cert.pem`
 
