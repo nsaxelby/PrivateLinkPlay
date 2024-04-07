@@ -3,7 +3,7 @@ resource "aws_vpc_endpoint_service" "example" {
   network_load_balancer_arns = [aws_lb.my-nlb.arn]
 }
 
-resource "aws_vpc_endpoint_service_allowed_principal" "allow_me_to_foo" {
+resource "aws_vpc_endpoint_service_allowed_principal" "vpc_allowed_princ" {
   vpc_endpoint_service_id = aws_vpc_endpoint_service.example.id
   principal_arn           = "*"
 }
